@@ -3,7 +3,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from os import environ as env
 from dotenv import load_dotenv
-from render_decoration import render_decoration as render
+from src.render_decoration import render_decoration as render
 load_dotenv()
 
 

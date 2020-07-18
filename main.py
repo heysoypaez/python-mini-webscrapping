@@ -1,7 +1,7 @@
-from render_decoration import *
-from build_product import *
-from get_page_html_raw import *
-from send_filecontent_to_gmail import send_filecontent_to_gmail
+from src.render_decoration import *
+from src.build_product import *
+from src.get_page_html_raw import *
+from src.send_filecontent_to_gmail import send_filecontent_to_gmail
 
 render_decoration("Starting")
 
