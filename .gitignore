@@ -1,2 +1,3 @@
 *.pyc 
 developer/
+.env
