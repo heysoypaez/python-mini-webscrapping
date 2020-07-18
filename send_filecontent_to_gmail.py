@@ -1,42 +1,64 @@
 import smtplib , getpass
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+from os import environ as env
+from dotenv import load_dotenv
+from render_decoration import render_decoration as render
+load_dotenv()
 
-def get_gmail_verified_account(user, password)
 
-	# Host y puerto SMTP de Gmail 
-	gmail = smtplib.SMTP("smtp.gmail.com" , 587)
+def get_gmail_verified_account(user, password):
 
-	# Protocolo de cifrado de datos
-	gmail.starttls()
+	try:
+		# Host y puerto SMTP de Gmail 
+		gmail = smtplib.SMTP("smtp.gmail.com" , 587)
 
-	# Credenciales
-	gmail.login(user,password)
+		# Protocolo de cifrado de datos
+		gmail.starttls()
 
-	# Muestra la depuración de la operación de envio 1=true
-	gmail.set_debuglevel(1)
-	return gmail
+		# Credenciales
+		gmail.login(user,password)
 
-def send_filecontent_to_gmail():
+		# Muestra la depuración de la operación de envio 1=true
+		gmail.set_debuglevel(1)
+		render("Account verified")
+		return gmail
+	
+	except Exception as e:
+		raise e
 
-	gmail = get_gmail_verified_account(env.user , env.password)
 
-	with open('notebooks.md', 'r') as file:
-    notebook_markdown = file.read()
+def send_filecontent_to_gmail(file_name,subject,sender, receiver):
 
-	remitente = "Daniel <danielpaezsw66@gmail.com>"
-	destinatario = remitente
-	mensaje = MIMEText(notebook_markdown, "plain") #Content-type text htnl
+	try:
+		gmail = get_gmail_verified_account(env.get("user"),env.get("password"))
 
-	# Email Headers
-	header = MIMEMultipart()
-	header["Subject"] = "Notebooks en menos de $300.000 pesos"
-	header["From"] = remitente
-	header["To"] = destinatario
-	header.attach(mensaje)
+		with open(file_name, 'r') as file:
+  			notebook_markdown = file.read()
+  	
+  	#Content-type text or htnl
+		message = MIMEText(notebook_markdown, "plain") 
+	
+		# Email Headers
+		header = MIMEMultipart()
+		header["Subject"] = subject
+		header["From"] = sender
+		header["To"] = receiver
+		header.attach(message)
 
-	# Enviar
-	gmail.sendmail(remitente, destinatario, header.as_string())
+		# Send Email
+		gmail.sendmail(sender, receiver, header.as_string())
 
-	# Cerrar conexion SMTP
-	gmail.quit()
+		# Close SMTP connection
+		gmail.quit()
+		render("Email Sent")
+		return True
+
+	except Exception as e:
+		raise e
+
+
+
+
+
+

@@ -13,9 +13,9 @@ def extract_product(product, notebook = {} , url_base = "https://www.solotodo.cl
 		notebook["video"] = product.find(string="Tarjetas de video").find_next('dd').ul.li.text 
 														 
 		for attribute,value in notebook.items():
-			notebook[attribute] = value.replace(",","|").strip() 
+			value = value.replace(",","|").strip() 
 
-			if notebook[attribute] == "screen" or notebook[attribute] == "cpu"
+			if attribute == "screen" or attribute == "cpu":
 				notebook[attribute] = value.replace("\n","")
 
 	except Exception as e:
